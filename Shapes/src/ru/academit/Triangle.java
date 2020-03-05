@@ -1,6 +1,6 @@
 package ru.academit;
 
-public class Triangle implements Shape,Comparable<Shape> {
+public class Triangle implements Shape {
     private double x1, y1, x2, y2, x3, y3;
 
     public Triangle(double x1, double y1, double x2, double y2, double x3, double y3) {
@@ -54,7 +54,12 @@ public class Triangle implements Shape,Comparable<Shape> {
         return getLength(x1, y1, x2, y2) + getLength(x2, y2, x3, y3) + getLength(x3, y3, x1, y1);
     }
     @Override
-    public int compareTo(Shape o) {
-        return (int) (this.getArea()-o.getArea());
+    public String toString() {
+        return
+                "[INFO]Shape:Square"+ System.lineSeparator()+
+                        "[INFO]Width: "+getWidth()+ System.lineSeparator()+
+                        "[INFO]Height: "+getHeight()+ System.lineSeparator()+
+                        "[INFO]Area: "+getArea()+ System.lineSeparator()+
+                        "[INFO]Perimeter: "+getPerimeter();
     }
 }

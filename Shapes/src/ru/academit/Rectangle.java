@@ -1,6 +1,6 @@
 package ru.academit;
 
-public class Rectangle implements Shape,Comparable<Shape> {
+public class Rectangle implements Shape {
     double length1, length2;
 
     public Rectangle(double length1, double length2) {
@@ -29,7 +29,12 @@ public class Rectangle implements Shape,Comparable<Shape> {
     }
 
     @Override
-    public int compareTo(Shape o) {
-        return (int) (this.getArea()-o.getArea());
+    public String toString() {
+        return
+                "[INFO]Shape:Square"+ System.lineSeparator()+
+                        "[INFO]Width: "+getWidth()+ System.lineSeparator()+
+                        "[INFO]Height: "+getHeight()+ System.lineSeparator()+
+                        "[INFO]Area: "+getArea()+ System.lineSeparator()+
+                        "[INFO]Perimeter: "+getPerimeter();
     }
 }

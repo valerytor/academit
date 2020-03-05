@@ -1,6 +1,6 @@
 package ru.academit;
 
-public class Circle implements Shape,Comparable<Shape> {
+public class Circle implements Shape {
     private double radius;
 
     public Circle(double radius) {
@@ -28,7 +28,12 @@ public class Circle implements Shape,Comparable<Shape> {
     }
 
     @Override
-    public int compareTo(Shape o) {
-        return (int) (this.getArea()-o.getArea());
+    public String toString() {
+        return
+                "[INFO]Shape:Square" + System.lineSeparator() +
+                        "[INFO]Width: " + getWidth() + System.lineSeparator() +
+                        "[INFO]Height: " + getHeight() + System.lineSeparator() +
+                        "[INFO]Area: " + getArea() + System.lineSeparator() +
+                        "[INFO]Perimeter: " + getPerimeter();
     }
 }

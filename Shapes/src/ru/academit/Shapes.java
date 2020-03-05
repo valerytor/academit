@@ -24,10 +24,14 @@ public class Shapes {
         shape.add(rectangle2);
         shape.add(circle1);
         shape.add(circle2);
-        Collections.sort(shape);
+        Collections.sort(shape, new AreaComparator());
 
-        System.out.println("--AREA--");
-//        System.out.printf("%-20s%-25s%n", "[Max of area]:", shape.getArea());
-//        System.out.printf("%-20s%-25s%n", "[Name of class]:", shape.getClass());
+        System.out.println("[Max of area]:");
+        System.out.println(shape.get(shape.size() - 1).toString());
+        System.out.println();
+
+        Collections.sort(shape, new PerimeterComparator());
+        System.out.println("[Second largest perimeter]:");
+        System.out.println(shape.get(shape.size() - 2).toString());
     }
 }

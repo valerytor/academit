@@ -1,6 +1,6 @@
 package ru.academit;
 
-public class Square implements Shape,Comparable<Shape> {
+public class Square implements Shape {
     private double sideLength;
 
     public Square(double sideLength) {
@@ -19,16 +19,21 @@ public class Square implements Shape,Comparable<Shape> {
 
     @Override
     public double getArea() {
-        return Math.pow(sideLength,2);
+        return Math.pow(sideLength, 2);
     }
 
     @Override
     public double getPerimeter() {
-        return 4*sideLength;
+        return (double) (4 * sideLength);
     }
 
     @Override
-    public int compareTo(Shape o) {
-        return (int) (this.getArea()-o.getArea());
+    public String toString() {
+        return
+                "[INFO]Shape:Square" + System.lineSeparator() +
+                        "[INFO]Width: " + getWidth() + System.lineSeparator() +
+                        "[INFO]Height: " + getHeight() + System.lineSeparator() +
+                        "[INFO]Area: " + getArea() + System.lineSeparator() +
+                        "[INFO]Perimeter: " + getPerimeter();
     }
 }
