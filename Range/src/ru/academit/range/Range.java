@@ -13,12 +13,12 @@ public class Range {
         return from;
     }
 
-    public double getTo() {
-        return to;
-    }
-
     public void setFrom(double from) {
         this.from = from;
+    }
+
+    public double getTo() {
+        return to;
     }
 
     public void setTo(double to) {
@@ -30,41 +30,41 @@ public class Range {
     }
 
     public boolean isInside(double number) {
-        return from < number && number < to;
+        return from <= number && number <= to;
     }
 
-    public Range rangeIntersection(Range range) {
-        if (this.getFrom() < range.getTo() && this.getTo() > range.getFrom()) {
-            return new Range(Math.max(this.getFrom(), range.getFrom()), Math.min(this.getTo(), range.getTo()));
+    public Range getIntersection(Range range) {
+        if (this.from < range.to && this.to > range.from) {
+            return new Range(Math.max(from, range.from), Math.min(to, range.to));
         }
+
         return null;
     }
 
-    public Range[] unionRanges(Range range) {
-        if (this.isInside(range.getFrom()) || range.isInside(this.getFrom())) {
+    public Range[] getUnion(Range range) {
+        if ((from <= range.from && to >= range.from) || (range.from <= from && range.to >= from))
+        {
             return new Range[]
-                    {new Range(Math.min(this.getFrom(), range.getFrom()), Math.max(this.getTo(), range.getTo()))};
+                    {new Range(Math.min(from, range.from), Math.max(to, range.to))};
         }
-        return new Range[]{this, range};
+
+        return new Range[]{range};
     }
 
-    public Range[] differenceRanges(Range range) {
-        if (this.isInside(range.getFrom()) || this.isInside(range.getTo())) {
-            if (this.getFrom() > range.getFrom()) {
-                return new Range[]{new Range(this.getFrom(), range.getTo())};
-            }
-
-            if (this.getFrom() < range.getFrom() && this.getTo() > range.getTo()) {
-                return new Range[]{new Range(range.getTo(), this.getTo()),
-                        new Range(range.getTo(), this.getTo())};
-            }
-
-            if (this.getFrom() < range.getFrom() && this.getTo() < range.getTo()) {
-                return new Range[]{new Range(this.getFrom(), range.getFrom())};
-            }
+    public Range[] getDifference(Range range) {
+        if (from > range.from && to > range.to) {
+            return new Range[]{new Range(range.to, to)};
         }
-        return null;
+
+        if (from < range.from && to > range.to) {
+            return new Range[]{new Range(from, range.from),
+                    new Range(range.to, to)};
+        }
+
+        if (from < range.from && to < range.to) {
+            return new Range[]{new Range(from, range.from)};
+        }
+
+        return new Range[]{new Range(from, to)};
     }
-
-
 }
