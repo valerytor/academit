@@ -1,4 +1,4 @@
-package ru.academit.range;
+package ru.academit.vkap.range;
 
 public class Range {
     private double from;
@@ -42,16 +42,22 @@ public class Range {
     }
 
     public Range[] getUnion(Range range) {
-        if ((from <= range.from && to >= range.from) || (range.from <= from && range.to >= from))
-        {
-            return new Range[]
-                    {new Range(Math.min(from, range.from), Math.max(to, range.to))};
+        if (range.from <= to && from <= range.to) {
+            return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
         }
 
-        return new Range[]{range};
+        if (from < range.from) {
+            return new Range[]{new Range(from, to), new Range(range.from, range.to)};
+        }
+
+        return new Range[]{new Range(range.from, range.to), new Range(from, to)};
     }
 
     public Range[] getDifference(Range range) {
+        if (to <= range.from && from >= range.to) {
+            return new Range[]{new Range(from, to)};
+        }
+
         if (from > range.from && to > range.to) {
             return new Range[]{new Range(range.to, to)};
         }
@@ -62,9 +68,17 @@ public class Range {
         }
 
         if (from < range.from && to < range.to) {
-            return new Range[]{new Range(from, range.from)};
+            return new Range[]{new Range(from, to)};
+        }
+        if (from >= range.from && to <= range.to) {
+            return new Range[0];
         }
 
         return new Range[]{new Range(from, to)};
+    }
+
+    @Override
+    public String toString() {
+        return "From:" + from + " To: " + to;
     }
 }
