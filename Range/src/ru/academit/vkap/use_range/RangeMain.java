@@ -4,30 +4,36 @@ import ru.academit.vkap.range.Range;
 
 public class RangeMain {
     public static void main(String[] args) {
-        Range range1 = new Range(1, 7);
+        Range range1 = new Range(5, 7);
         System.out.println("Length of range: " + range1.getLength());
 
-        Range range2 = new Range(2, 5);
-        if (range1.getIntersection(range2) != null) {
-            Range intersection = range1.getIntersection(range2);
+        Range range2 = new Range(5, 7);
+        Range intersection = range1.getIntersection(range2);
+        if (intersection != null) {
             System.out.println("Intersection.Length: " + intersection.getLength());
-            System.out.println("Intersection.Get point From: " + intersection.getFrom());
-            System.out.println("Intersection.Get point To: " + intersection.getTo());
+            System.out.println("Intersection. Range: " + intersection);
+        } else {
+            System.out.println("Intersection: null");
         }
 
-        Range[] unionResult = range1.getUnion(range2);
-        System.out.println("Union. Length of array is: " + unionResult.length);
-        System.out.println("Union. Range1: " + unionResult[0].toString());
-        if (unionResult.length == 2) {
-            System.out.println("Union. Range2: " + unionResult[1].toString());
+        Range[] union = range1.getUnion(range2);
+        System.out.println("Union. Length of array is: " + union.length);
+        System.out.println("Union. Range1: " + union[0]);
+        if (union.length == 2) {
+            System.out.println("Union. Range2: " + union[1]);
         }
-        Range[] differenceResult = range1.getDifference(range2);
-        System.out.println("Difference. Length of array is: " + differenceResult.length);
-        if (differenceResult.length > 0) {
-            System.out.println("Difference. Range1: " + differenceResult[0].toString());
-            if (differenceResult.length == 2) {
-                System.out.println("Difference. Range2: " + differenceResult[1].toString());
+
+        Range[] difference = range1.getDifference(range2);
+        System.out.println("Difference. Length of array is: " + difference.length);
+        if (difference.length > 0) {
+            System.out.println("Difference. Range1: " + difference[0]);
+            if (difference.length == 2) {
+                System.out.println("Difference. Range2: " + difference[1]);
             }
+        } else {
+            System.out.println("Difference. Range: null");
         }
+
+
     }
 }
