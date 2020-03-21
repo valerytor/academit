@@ -1,4 +1,6 @@
-package ru.academit;
+package ru.academit.comparators;
+
+import ru.academit.Shape;
 
 import java.util.Comparator;
 

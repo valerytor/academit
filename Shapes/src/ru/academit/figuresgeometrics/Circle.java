@@ -1,4 +1,6 @@
-package ru.academit;
+package ru.academit.figuresgeometrics;
+
+import ru.academit.Shape;
 
 public class Circle implements Shape {
     private double radius;
@@ -30,10 +32,10 @@ public class Circle implements Shape {
     @Override
     public String toString() {
         return
-                "[INFO]Shape:Square" + System.lineSeparator() +
-                        "[INFO]Width: " + getWidth() + System.lineSeparator() +
-                        "[INFO]Height: " + getHeight() + System.lineSeparator() +
-                        "[INFO]Area: " + getArea() + System.lineSeparator() +
-                        "[INFO]Perimeter: " + getPerimeter();
+                "Shape:Square" + System.lineSeparator() +
+                        "Width: " + getWidth() + System.lineSeparator() +
+                        "Height: " + getHeight() + System.lineSeparator() +
+                        "Area: " + getArea() + System.lineSeparator() +
+                        "Perimeter: " + getPerimeter();
     }
 }
