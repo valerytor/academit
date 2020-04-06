@@ -19,7 +19,7 @@ public class Triangle implements Shape {
         this.y3 = y3;
     }
 
-    private double max(double... arguments) {
+    private static double max(double... arguments) {
         double value = arguments[0];
 
         for (double arg : arguments) {
@@ -29,7 +29,7 @@ public class Triangle implements Shape {
         return value;
     }
 
-    private double min(double... arguments) {
+    private static double min(double... arguments) {
         double value = arguments[0];
 
         for (double arg : arguments) {
@@ -39,18 +39,18 @@ public class Triangle implements Shape {
         return value;
     }
 
-    private double getLength(double xa, double ya, double xb, double yb) {
-        return Math.sqrt(Math.pow((xb - xa), 2) - Math.pow((yb - ya), 2));
+    private static double getLength(double xa, double ya, double xb, double yb) {
+        return Math.sqrt(Math.pow((xb - xa), 2) + Math.pow((yb - ya), 2));
     }
 
     @Override
     public double getWidth() {
-        return this.max(x1, x2, x3) - this.min(x1, x2, x3);
+        return max(x1, x2, x3) - min(x1, x2, x3);
     }
 
     @Override
     public double getHeight() {
-        return this.max(y1, y2, y3) - this.min(y1, y2, y3);
+        return max(y1, y2, y3) - min(y1, y2, y3);
     }
 
     @Override
@@ -76,8 +76,12 @@ public class Triangle implements Shape {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this) return true;
-        if (o == null || o.getClass() != this.getClass()) return false;
+        if (o == this) {
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
         Triangle triangle = (Triangle) o;
 
         return x1 == triangle.x1 && y1 == triangle.y1 && x2 == triangle.x2 && y2 == triangle.y2 && x3 == triangle.x3 && y3 == triangle.y3;

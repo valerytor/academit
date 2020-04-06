@@ -1,13 +1,11 @@
 package ru.academit.outprogram;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.academit.comparators.*;
 import ru.academit.figuresgeometrics.*;
 import ru.academit.Shape;
-
 
 public class Shapes {
     public static void main(String[] args) {
@@ -39,4 +37,4 @@ public class Shapes {
         System.out.println("[Second largest perimeter]:");
         System.out.println(shapes.get(shapes.size() - 2));
     }
-}
+}   

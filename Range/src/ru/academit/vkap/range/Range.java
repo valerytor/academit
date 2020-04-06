@@ -34,7 +34,7 @@ public class Range {
     }
 
     public Range getIntersection(Range range) {
-        if (this.from < range.to && this.to > range.from) {
+        if (from < range.to && to > range.from) {
             return new Range(Math.max(from, range.from), Math.min(to, range.to));
         }
 

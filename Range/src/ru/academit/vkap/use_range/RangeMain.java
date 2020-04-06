@@ -33,7 +33,5 @@ public class RangeMain {
         } else {
             System.out.println("Difference. Range: null");
         }
-
-
     }
 }

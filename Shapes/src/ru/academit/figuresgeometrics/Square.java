@@ -21,8 +21,6 @@ public class Square implements Shape {
 
     @Override
     public double getArea() {
-
-        System.out.println("sideLength: " + sideLength);
         return sideLength * sideLength;
     }
 
@@ -43,8 +41,12 @@ public class Square implements Shape {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this) return true;
-        if (o == null || o.getClass() != this.getClass()) return false;
+        if (o == this) {
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
         Square square = (Square) o;
 
         return sideLength == square.sideLength;
