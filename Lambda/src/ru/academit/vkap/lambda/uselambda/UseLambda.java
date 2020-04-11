@@ -1,6 +1,5 @@
 package ru.academit.vkap.lambda.uselambda;
 
-import com.sun.org.apache.bcel.internal.generic.ARETURN;
 import ru.academit.vkap.lambda.person.Person;
 
 import java.util.Arrays;
@@ -9,7 +8,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class UseLambda {
@@ -44,7 +42,7 @@ public class UseLambda {
 
     public void getInfiniteStream() {
         System.out.println("Please, enter integer number: ");
-        try (Scanner scanner = new Scanner(System.in)) {
+        Scanner scanner = new Scanner(System.in);
             int intLimit = scanner.nextInt();
             DoubleStream.iterate(1, z -> z + 1)
                     .map(z -> {
@@ -53,19 +51,17 @@ public class UseLambda {
                     })
                     .limit(intLimit)
                     .forEach(z -> System.out.println(z));
-        }
     }
 
     public void getFibonacciNumbers() {
         System.out.println("Numbers of Fibonacci");
         System.out.println("Please, enter integer number: ");
-        try (Scanner scanner = new Scanner(System.in)) {
+        Scanner scanner = new Scanner(System.in);
         int intLimit = scanner.nextInt();
         Stream.iterate(new int[]{0, 1}, x -> new int[]{x[1], x[0] + x[1]})
                 .map(x -> x[0])
                 .limit(intLimit)
                 .forEach(z -> System.out.println(z));
-        }
     }
 
     public static void main(String[] args) {
