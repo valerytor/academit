@@ -78,7 +78,7 @@ public class UseLambda {
         System.out.println("===Task 2===");
         int rootCount = 11;
         infiniteStream(rootCount);
-        int fibonacciCount = 100;
+        int fibonacciCount = 20;
         getFibonacciNumbers(fibonacciCount);
     }
 }
