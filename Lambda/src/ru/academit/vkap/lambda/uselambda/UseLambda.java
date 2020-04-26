@@ -10,17 +10,23 @@ import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 public class UseLambda {
-    static private void namesDistinct(List<Person> persons) {
+    private static void printNamesDistinct(List<Person> persons) {
         System.out.println("Distinct names:");
-        System.out.println(persons.stream().map(Person::getName).distinct().collect(Collectors.toList()).toString());
+        System.out.println(persons.stream()
+                .map(Person::getName)
+                .distinct()
+                .collect(Collectors.toList()));
     }
 
-    static private void formatNamesDistinct(List<Person> persons) {
+    private static void printFormatNamesDistinct(List<Person> persons) {
         System.out.println("Format distinct names:");
-        System.out.println(persons.stream().map(Person::getName).distinct().collect(Collectors.joining(", ", "Имена: ", ".")));
+        System.out.println(persons.stream().
+                map(Person::getName).
+                distinct().
+                collect(Collectors.joining(", ", "Имена: ", ".")));
     }
 
-    static private void youngerPeople(List<Person> persons) {
+    private static void printYoungerPeople(List<Person> persons) {
         System.out.println("People younger than 18. Average age is: ");
         System.out.println(persons.stream()
                 .mapToInt(Person::getAge)
@@ -28,13 +34,13 @@ public class UseLambda {
                 .average());
     }
 
-    static private void peoplesMapGroup(List<Person> persons) {
+    private static void printPeoplesMapGroup(List<Person> persons) {
         System.out.println("People with group average of age:");
         Map<String, Double> personsAverageAgesByName = persons.stream().collect(Collectors.groupingBy(Person::getName, Collectors.averagingDouble(Person::getAge)));
         personsAverageAgesByName.forEach((n, a) -> System.out.printf("%10s: %s%n", n, a));
     }
 
-    static public void peoplesOrder(List<Person> persons) {
+    public static void printPeoplesOrder(List<Person> persons) {
         System.out.println("People sorted: " + System.lineSeparator());
         persons.stream()
                 .filter(a -> a.getAge() >= 20 && a.getAge() <= 45)
@@ -42,7 +48,7 @@ public class UseLambda {
                 .forEach(n -> System.out.println(n.getName()));
     }
 
-    static public void infiniteStream(int rootCount) {
+    public static void printInfiniteStream(int rootCount) {
         DoubleStream.iterate(1, z -> z + 1)
                 .map(z -> {
                     System.out.print("Number: " + z + " Square root: ");
@@ -52,7 +58,7 @@ public class UseLambda {
                 .forEach(System.out::println);
     }
 
-    static public void getFibonacciNumbers(int fibonacciCount) {
+    public static void printFibonacciNumbers(int fibonacciCount) {
         System.out.println("Numbers of Fibonacci");
         Stream.iterate(new long[]{0L, 1L}, x -> new long[]{x[1], x[0] + x[1]})
                 .map(x -> x[0])
@@ -61,7 +67,6 @@ public class UseLambda {
     }
 
     public static void main(String[] args) {
-        UseLambda useLambda = new UseLambda();
         List<Person> list = Arrays.asList(new Person("Antuan", 13),
                 new Person("Antuan", 12),
                 new Person("Mark", 28),
@@ -70,15 +75,15 @@ public class UseLambda {
                 new Person("Debra", 44),
                 new Person("Fredi", 8));
 
-        namesDistinct(list);
-        formatNamesDistinct(list);
-        youngerPeople(list);
-        peoplesMapGroup(list);
-        peoplesOrder(list);
+        printNamesDistinct(list);
+        printFormatNamesDistinct(list);
+        printYoungerPeople(list);
+        printPeoplesMapGroup(list);
+        printPeoplesOrder(list);
         System.out.println("===Task 2===");
         int rootCount = 11;
-        infiniteStream(rootCount);
+        printInfiniteStream(rootCount);
         int fibonacciCount = 20;
-        getFibonacciNumbers(fibonacciCount);
+        printFibonacciNumbers(fibonacciCount);
     }
 }
