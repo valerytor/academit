@@ -10,36 +10,40 @@ public class Vector {
 
     public Vector(int dimension) {
         if (dimension <= 0) {
-            throw new IllegalArgumentException("Dimension of vector can`t less or equal 0" + System.lineSeparator() + "Please, enter new value!");
+            throw new IllegalArgumentException("Dimension of vector can`t less or equal 0" + System.lineSeparator() + "Dimension:" + dimension + " Please, enter new value!");
         }
+
         components = new double[dimension];
     }
 
     public Vector(Vector vector) {
-        if (vector == null || this == vector) {
-            throw new IllegalArgumentException("Incorrect value of argument!");
+        if (vector == null) {
+            throw new IllegalArgumentException("Incorrect value of argument! " + System.lineSeparator() + "vector = null");
         }
         if (vector.components.length == 0) {
-            throw new IllegalArgumentException("Obtained vector has incorrect length!");
+            throw new IllegalArgumentException("Obtained vector has incorrect length!" + System.lineSeparator() + "components.length = 0");
         }
+
         components = Arrays.copyOf(vector.components, vector.components.length);
     }
 
     public Vector(double[] array) {
         if (array.length == 0) {
-            throw new IllegalArgumentException("Incorrect value of argument!");
+            throw new IllegalArgumentException("Incorrect value of argument: components.length = 0");
         }
+
         components = Arrays.copyOf(array, array.length);
     }
 
     public Vector(int dimension, double[] array) {
-        if (array.length == 0 || dimension == 0 || array.length > dimension) {
-            throw new IllegalArgumentException("Incorrect value of argument!");
+        if (dimension <= 0) {
+            throw new IllegalArgumentException("Incorrect value of argument: dimension = " + dimension);
         }
         if (array.length < dimension) {
             components = new double[dimension];
             System.arraycopy(array, 0, components, 0, array.length);
         }
+
         components = Arrays.copyOf(array, dimension);
     }
 
@@ -52,49 +56,32 @@ public class Vector {
         return Arrays.stream(components).mapToObj(Double::toString).collect(Collectors.joining(", ", "{", "}"));
     }
 
-    public void vectorAddition(Vector vector) {
-        RuntimeException check = vectorCheck(vector);
-        if (check != null) {
-            throw check;
-        }
-        double[] array2 = arrayAlignment(vector.components);
-        components = getArrayCalculation('+', array2);
+    public void add(Vector vector) {
+        сheck(vector);
+        double[] arrayTemporary = getArrayAlignment(vector.components);
+        DoubleBinaryOperator expression = Double::sum;
+        components = IntStream.range(0, components.length)
+                .mapToDouble(index -> expression.applyAsDouble(components[index], arrayTemporary[index]))
+                .toArray();
     }
 
-    public void vectorSubtraction(Vector vector) {
-        RuntimeException check = vectorCheck(vector);
-        if (check != null) {
-            throw check;
-        }
-        double[] array2 = arrayAlignment(vector.components);
-        components = getArrayCalculation('-', array2);
+    public void subtract(Vector vector) {
+        сheck(vector);
+
+        double[] arrayTemporary = getArrayAlignment(vector.components);
+        DoubleBinaryOperator expression = (x, y) -> x - y;
+        components = IntStream.range(0, components.length)
+                .mapToDouble(index -> expression.applyAsDouble(components[index], arrayTemporary[index]))
+                .toArray();
     }
 
-    private RuntimeException vectorCheck(Vector vector) {
+    private void сheck(Vector vector) {
         if (vector.components.length == 0) {
-            return new IllegalArgumentException("Incorrect value length of components!");
+            throw new IllegalArgumentException("Incorrect value length of components: length = 0");
         }
-
-        return null;
     }
 
-    private double[] getArrayCalculation(char exp, double[] array) {
-        char[] charArray = new char[]{'-', '+'};
-        if (IntStream.range(0, charArray.length).mapToObj(i -> charArray[i]).noneMatch(c -> c == exp)) {
-            throw new IllegalArgumentException("Char of expression is not correct");
-        }
-
-        DoubleBinaryOperator expression;
-        if (exp == '+') {
-            expression = Double::sum;
-        } else {
-            expression = (x, y) -> x - y;
-        }
-
-        return IntStream.range(0, components.length).mapToDouble(index -> expression.applyAsDouble(components[index], array[index])).toArray();
-    }
-
-    private double[] arrayAlignment(double[] array) {
+    private double[] getArrayAlignment(double[] array) {
         if (components.length != array.length) {
             int dimension = Math.max(components.length, array.length);
             components = Arrays.copyOf(components, dimension);
@@ -106,7 +93,9 @@ public class Vector {
     }
 
     public void multiplyOnScalar(double scalar) {
-        components = Arrays.stream(components).map(x -> x * scalar).toArray();
+        for (int i = 0; i < components.length; i++) {
+            components[i] *= scalar;
+        }
     }
 
     public void turn() {
@@ -114,7 +103,7 @@ public class Vector {
     }
 
     public double getLength() {
-        double length = Arrays.stream(components).sum();
+        double length = Arrays.stream(components).map(x -> x * x).sum();
 
         return Math.sqrt(length);
     }
@@ -129,8 +118,12 @@ public class Vector {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this) return true;
-        if (o == null || o.getClass() != this.getClass()) return false;
+        if (o == this) {
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
         Vector p = (Vector) o;
 
         return Arrays.equals(components, p.components);
@@ -145,21 +138,21 @@ public class Vector {
         return hash;
     }
 
-    public static Vector addition(Vector vector1, Vector vector2) {
-        Vector itog = new Vector(vector1);
-        itog.vectorAddition(vector2);
+    public static Vector getAmount(Vector vector1, Vector vector2) {
+        Vector result = new Vector(vector1);
+        result.add(vector2);
 
-        return itog;
+        return result;
     }
 
-    public static Vector subtraction(Vector vector1, Vector vector2){
-        Vector itog = new Vector(vector1);
-        itog.vectorSubtraction(vector2);
+    public static Vector getDifference(Vector vector1, Vector vector2) {
+        Vector result = new Vector(vector1);
+        result.subtract(vector2);
 
-        return itog;
+        return result;
     }
 
-    public static double multiplicationScalar(Vector vector1, Vector vector2) {
+    public static double getScalarMultiplication(Vector vector1, Vector vector2) {
         double result = 0;
         int length = Math.min(vector1.getSize(), vector2.getSize());
         for (int i = 0; i < length; i++) {

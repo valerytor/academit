@@ -20,10 +20,10 @@ public class UseLambda {
 
     private static void printFormatNamesDistinct(List<Person> persons) {
         System.out.println("Format distinct names:");
-        System.out.println(persons.stream().
-                map(Person::getName).
-                distinct().
-                collect(Collectors.joining(", ", "Имена: ", ".")));
+        System.out.println(persons.stream()
+                .map(Person::getName)
+                .distinct()
+                .collect(Collectors.joining(", ", "Имена: ", ".")));
     }
 
     private static void printYoungerPeople(List<Person> persons) {
@@ -40,7 +40,7 @@ public class UseLambda {
         personsAverageAgesByName.forEach((n, a) -> System.out.printf("%10s: %s%n", n, a));
     }
 
-    public static void printPeoplesOrder(List<Person> persons) {
+    private static void printPeoplesOrder(List<Person> persons) {
         System.out.println("People sorted: " + System.lineSeparator());
         persons.stream()
                 .filter(a -> a.getAge() >= 20 && a.getAge() <= 45)
@@ -48,7 +48,7 @@ public class UseLambda {
                 .forEach(n -> System.out.println(n.getName()));
     }
 
-    public static void printInfiniteStream(int rootCount) {
+    private static void printInfiniteStream(int rootCount) {
         DoubleStream.iterate(1, z -> z + 1)
                 .map(z -> {
                     System.out.print("Number: " + z + " Square root: ");
