@@ -1,9 +1,7 @@
 package ru.academit.vkap.vector;
 
 import java.util.Arrays;
-import java.util.function.DoubleBinaryOperator;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Vector {
     private double[] components;
@@ -16,7 +14,7 @@ public class Vector {
         components = new double[dimension];
     }
 
-    public Vector(Vector vector) {
+    private Vector(Vector vector) {
         if (vector == null) {
             throw new IllegalArgumentException("Incorrect value of argument! " + System.lineSeparator() + "vector = null");
         }
@@ -48,7 +46,7 @@ public class Vector {
         components = Arrays.copyOf(array, dimension);
     }
 
-    public int getSize() {
+    private int getSize() {
         return components.length;
     }
 
@@ -100,11 +98,11 @@ public class Vector {
         return Math.sqrt(componentsSum);
     }
 
-    public double getComponent(int index) {
+    private double getComponent(int index) {
         return components[index];
     }
 
-    public void setComponent(int index, double component) {
+    private void setComponent(int index, double component) {
         components[index] = component;
     }
 
