@@ -39,11 +39,12 @@ public class Vector {
         if (dimension <= 0) {
             throw new IllegalArgumentException("Incorrect value of argument: dimension = " + dimension);
         }
-        if (array.length < dimension) {
-            components = new double[dimension];
-            System.arraycopy(array, 0, components, 0, array.length);
+        if (array == null) {
+            throw new IllegalArgumentException("Array is null!");
         }
-
+        if (array.length == 0) {
+            throw new IllegalArgumentException("Length of array is 0");
+        }
         components = Arrays.copyOf(array, dimension);
     }
 
@@ -57,27 +58,16 @@ public class Vector {
     }
 
     public void add(Vector vector) {
-        сheck(vector);
         double[] arrayTemporary = getArrayAlignment(vector.components);
-        DoubleBinaryOperator expression = Double::sum;
-        components = IntStream.range(0, components.length)
-                .mapToDouble(index -> expression.applyAsDouble(components[index], arrayTemporary[index]))
-                .toArray();
+        for (int i = 0; i < components.length; i++) {
+            components[i] += arrayTemporary[i];
+        }
     }
 
     public void subtract(Vector vector) {
-        сheck(vector);
-
         double[] arrayTemporary = getArrayAlignment(vector.components);
-        DoubleBinaryOperator expression = (x, y) -> x - y;
-        components = IntStream.range(0, components.length)
-                .mapToDouble(index -> expression.applyAsDouble(components[index], arrayTemporary[index]))
-                .toArray();
-    }
-
-    private void сheck(Vector vector) {
-        if (vector.components.length == 0) {
-            throw new IllegalArgumentException("Incorrect value length of components: length = 0");
+        for (int i = 0; i < components.length; i++) {
+            components[i] -= arrayTemporary[i];
         }
     }
 
@@ -103,9 +93,11 @@ public class Vector {
     }
 
     public double getLength() {
-        double length = Arrays.stream(components).map(x -> x * x).sum();
-
-        return Math.sqrt(length);
+        double componentsSum = 0; //?Arrays.stream(components).map(x -> x * x).sum();
+        for (double item : components) {
+            componentsSum += item * item;
+        }
+        return Math.sqrt(componentsSum);
     }
 
     public double getComponent(int index) {
@@ -121,7 +113,7 @@ public class Vector {
         if (o == this) {
             return true;
         }
-        if (o == null || o.getClass() != this.getClass()) {
+        if (o == null || o.getClass() != getClass()) {
             return false;
         }
         Vector p = (Vector) o;
@@ -138,7 +130,7 @@ public class Vector {
         return hash;
     }
 
-    public static Vector getAmount(Vector vector1, Vector vector2) {
+    public static Vector getSum(Vector vector1, Vector vector2) {
         Vector result = new Vector(vector1);
         result.add(vector2);
 
@@ -155,6 +147,7 @@ public class Vector {
     public static double getScalarMultiplication(Vector vector1, Vector vector2) {
         double result = 0;
         int length = Math.min(vector1.getSize(), vector2.getSize());
+
         for (int i = 0; i < length; i++) {
             result += vector1.components[i] * vector2.components[i];
         }

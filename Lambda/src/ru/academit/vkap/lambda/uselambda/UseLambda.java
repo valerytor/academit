@@ -58,7 +58,7 @@ public class UseLambda {
                 .forEach(System.out::println);
     }
 
-    public static void printFibonacciNumbers(int fibonacciCount) {
+    private static void printFibonacciNumbers(int fibonacciCount) {
         System.out.println("Numbers of Fibonacci");
         Stream.iterate(new long[]{0L, 1L}, x -> new long[]{x[1], x[0] + x[1]})
                 .map(x -> x[0])
