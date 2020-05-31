@@ -8,18 +8,18 @@ public class Vector {
 
     public Vector(int dimension) {
         if (dimension <= 0) {
-            throw new IllegalArgumentException("Dimension of vector can`t less or equal 0" + System.lineSeparator() + "Dimension:" + dimension + " Please, enter new value!");
+            throw new IllegalArgumentException("Dimension of vector can`t less or equal 0  Dimension:" + dimension + " Please, enter new value!");
         }
 
         components = new double[dimension];
     }
 
-    private Vector(Vector vector) {
+    public Vector(Vector vector) {
         if (vector == null) {
-            throw new IllegalArgumentException("Incorrect value of argument! " + System.lineSeparator() + "vector = null");
+            throw new IllegalArgumentException("Incorrect value of argument!  vector = null");
         }
         if (vector.components.length == 0) {
-            throw new IllegalArgumentException("Obtained vector has incorrect length!" + System.lineSeparator() + "components.length = 0");
+            throw new IllegalArgumentException("Obtained vector has incorrect length! components.length = 0");
         }
 
         components = Arrays.copyOf(vector.components, vector.components.length);
@@ -35,37 +35,41 @@ public class Vector {
 
     public Vector(int dimension, double[] array) {
         if (dimension <= 0) {
-            throw new IllegalArgumentException("Incorrect value of argument: dimension = " + dimension);
+            throw new IllegalArgumentException("Incorrect value of argument: dimension is " + dimension + "Argument can`t have negative value");
         }
         if (array == null) {
             throw new IllegalArgumentException("Array is null!");
         }
-        if (array.length == 0) {
-            throw new IllegalArgumentException("Length of array is 0");
-        }
+
         components = Arrays.copyOf(array, dimension);
     }
 
-    private int getSize() {
+    public int getSize() {
         return components.length;
     }
 
     @Override
     public String toString() {
-        return Arrays.stream(components).mapToObj(Double::toString).collect(Collectors.joining(", ", "{", "}"));
+        return Arrays.stream(components)
+                .mapToObj(Double::toString)
+                .collect(Collectors.joining(", ", "{", "}"));
     }
 
     public void add(Vector vector) {
-        double[] arrayTemporary = getArrayAlignment(vector.components);
-        for (int i = 0; i < components.length; i++) {
-            components[i] += arrayTemporary[i];
+        if (components.length < vector.components.length) {
+            components = Arrays.copyOf(components, vector.components.length);
+        }
+        for (int i = 0; i < components.length || i < vector.components.length; i++) {
+            components[i] += vector.components[i];
         }
     }
 
     public void subtract(Vector vector) {
-        double[] arrayTemporary = getArrayAlignment(vector.components);
-        for (int i = 0; i < components.length; i++) {
-            components[i] -= arrayTemporary[i];
+        if (components.length < vector.components.length) {
+            components = Arrays.copyOf(components, vector.components.length);
+        }
+        for (int i = 0; i < components.length || i < vector.components.length; i++) {
+            components[i] -= vector.components[i];
         }
     }
 
@@ -91,18 +95,19 @@ public class Vector {
     }
 
     public double getLength() {
-        double componentsSum = 0; //?Arrays.stream(components).map(x -> x * x).sum();
-        for (double item : components) {
-            componentsSum += item * item;
-        }
-        return Math.sqrt(componentsSum);
+        double sum = Arrays.stream(components).map(x -> x * x).sum();
+//        for (double component : components) {
+//            sum += component * component;
+//        }
+
+        return Math.sqrt(sum);
     }
 
-    private double getComponent(int index) {
+    public double getComponent(int index) {
         return components[index];
     }
 
-    private void setComponent(int index, double component) {
+    public void setComponent(int index, double component) {
         components[index] = component;
     }
 
@@ -111,6 +116,7 @@ public class Vector {
         if (o == this) {
             return true;
         }
+
         if (o == null || o.getClass() != getClass()) {
             return false;
         }
