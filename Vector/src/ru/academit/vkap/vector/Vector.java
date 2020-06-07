@@ -59,7 +59,8 @@ public class Vector {
         if (components.length < vector.components.length) {
             components = Arrays.copyOf(components, vector.components.length);
         }
-        for (int i = 0; i < components.length || i < vector.components.length; i++) {
+
+        for (int i = 0; i < components.length && i < vector.components.length; i++) {
             components[i] += vector.components[i];
         }
     }
@@ -68,20 +69,10 @@ public class Vector {
         if (components.length < vector.components.length) {
             components = Arrays.copyOf(components, vector.components.length);
         }
-        for (int i = 0; i < components.length || i < vector.components.length; i++) {
+
+        for (int i = 0; i < components.length && i < vector.components.length; i++) {
             components[i] -= vector.components[i];
         }
-    }
-
-    private double[] getArrayAlignment(double[] array) {
-        if (components.length != array.length) {
-            int dimension = Math.max(components.length, array.length);
-            components = Arrays.copyOf(components, dimension);
-
-            return Arrays.copyOf(array, dimension);
-        }
-
-        return array;
     }
 
     public void multiplyOnScalar(double scalar) {
@@ -96,9 +87,6 @@ public class Vector {
 
     public double getLength() {
         double sum = Arrays.stream(components).map(x -> x * x).sum();
-//        for (double component : components) {
-//            sum += component * component;
-//        }
 
         return Math.sqrt(sum);
     }
@@ -116,10 +104,10 @@ public class Vector {
         if (o == this) {
             return true;
         }
-
         if (o == null || o.getClass() != getClass()) {
             return false;
         }
+
         Vector p = (Vector) o;
 
         return Arrays.equals(components, p.components);
