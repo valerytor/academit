@@ -26,8 +26,9 @@ public class Matrix {
             throw new IllegalArgumentException("Incorrect value of argument!  matrix = null");
         }
 
-        rows = new Vector[matrix.rows.length];
-        for (int i = 0; i < matrix.rows.length; i++) {
+        int maxLength = getMaxLength(matrix.rows);
+        rows = new Vector[maxLength];
+        for (int i = 0; i < maxLength; i++) {
             rows[i] = new Vector(matrix.rows[i]);
         }
     }
@@ -45,8 +46,9 @@ public class Matrix {
             }
         }
 
-        rows = new Vector[doubleArray.length];
-        for (int i = 0; i < doubleArray.length; i++) {
+        int maxLength = getMaxLength(doubleArray);
+        rows = new Vector[maxLength];
+        for (int i = 0; i < maxLength; i++) {
             rows[i] = new Vector(doubleArray[i]);
         }
     }
@@ -58,5 +60,23 @@ public class Matrix {
         rows = Arrays.copyOf(vectorArray, vectorArray.length);
     }
 
-    
+    private int getMaxLength(Vector[] vectors) {
+        return Arrays.stream(vectors).map(Vector::getSize).max(Integer::compare).orElse(-1);
+    }
+
+    private int getMaxLength(double[][] array) {
+        return Arrays.stream(array).mapToInt(x -> x.length).max().orElse(-1);
+    }
+
+    public void showMatrixSize(){
+        System.out.println("Size of matrix is column:"+getColumnSize()+" row:"+getRowSize());
+    }
+
+    private int getRowSize(){
+        return rows.length;
+    }
+
+    private int getColumnSize(){
+        return rows[0].getSize();
+    }
 }
