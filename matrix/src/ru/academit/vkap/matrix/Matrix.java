@@ -49,7 +49,7 @@ public class Matrix {
         int maxLength = getMaxLength(doubleArray);
         rows = new Vector[maxLength];
         for (int i = 0; i < maxLength; i++) {
-            rows[i] = new Vector(doubleArray[i]);
+            rows[i] = new Vector(maxLength, doubleArray[i]);
         }
     }
 
@@ -57,7 +57,13 @@ public class Matrix {
         if (vectorArray == null) {
             throw new IllegalArgumentException("Incorrect value of argument!  vectorArray = null");
         }
-        rows = Arrays.copyOf(vectorArray, vectorArray.length);
+
+        int maxLength = getMaxLength(vectorArray);
+        rows = new Vector[vectorArray.length];
+        for (int i = 0; i < vectorArray.length; i++) {
+            rows[i] = new Vector(maxLength);
+            rows[i].add(vectorArray[i]);
+        }
     }
 
     private int getMaxLength(Vector[] vectors) {
@@ -68,15 +74,67 @@ public class Matrix {
         return Arrays.stream(array).mapToInt(x -> x.length).max().orElse(-1);
     }
 
-    public void showMatrixSize(){
-        System.out.println("Size of matrix is column:"+getColumnSize()+" row:"+getRowSize());
+    public void showMatrixSize() {
+        System.out.println("Size of matrix is:  column-" + getColumnSize() + " row-" + getRowSize());
     }
 
-    private int getRowSize(){
+    private int getRowSize() {
         return rows.length;
     }
 
-    private int getColumnSize(){
+    private int getColumnSize() {
         return rows[0].getSize();
     }
+
+    private Vector getVectorString(int index) {
+        checkRange(index);
+
+        return rows[index];
+    }
+
+    private void setVectorString(int index, Vector vector) {
+        checkRange(index);
+
+        rows[index] = new Vector(vector);
+    }
+
+    private Vector getVectorColumn(int index) {
+        checkRange(index);
+        Vector vector = new Vector(rows.length);
+        for (int i = 0; i < rows.length; i++) {
+            vector.setComponent(i, rows[i].getComponent(index));
+        }
+
+        return vector;
+    }
+
+    public void makeTranspose() {
+        Vector[] temp = new Vector[getColumnSize()];
+
+        for (int i = 0; i < getRowSize(); i++) {
+            for (int j = 0; j < getColumnSize(); j++) {
+                if (temp[j] == null) {
+                    temp[j] = new Vector(getRowSize());
+                }
+                temp[j].setComponent(i, rows[i].getComponent(j));
+            }
+        }
+        rows = temp;
+    }
+
+    public void multiplyOnScalar(double scalar) {
+        for (Vector vector : rows) {
+            vector.multiplyOnScalar(scalar);
+        }
+    }
+
+    private void checkRange(int index) {
+        if (index < 0) {
+            throw new IllegalArgumentException("Range error! Size of index must be more than 0. Entered value of index: " + index);
+        }
+        if (index >= rows.length) {
+            throw new IllegalArgumentException("Range error! Size of index out of size array. Entered value of index: " + index);
+        }
+    }
+
 }
