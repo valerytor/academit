@@ -137,4 +137,70 @@ public class Matrix {
         }
     }
 
+    public double getDeterminant() {
+        System.out.println("ROWS.LENGTH: " + rows.length);
+        if (rows.length == 1) {
+            return rows[0].getComponent(0);
+
+        }
+        if (rows.length == 2) {
+            return rows[0].getComponent(0) * rows[1].getComponent(1) -
+                    rows[0].getComponent(1) * rows[1].getComponent(0);
+
+        }
+
+        return getMatrixDeterminant(getDoubleArray());
+    }
+
+    private double[][] getDoubleArray() {
+        System.out.println("rows.length: "+rows.length+" rows[0].getSize(): "+rows[0].getSize()+" rows[1].getSize(): "+rows[1].getSize());
+        double[][] temporaryArray = new double[rows.length][rows[0].getSize()];
+        for (int i = 0; i < rows.length; i++) {
+            for (int j = 0; j < rows[i].getSize(); j++) {
+                temporaryArray[i][j] = rows[i].getComponent(j);
+            }
+        }
+
+        return temporaryArray;
+    }
+
+    private double getMatrixDeterminant(double[][] matrix) {
+        double[][] temporaryArray;
+        double result = 0;
+
+        if (matrix.length == 1) {
+            return matrix[0][0];
+        }
+
+        if (matrix.length == 2) {
+            return ((matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]));
+        }
+        for (int i = 0; i < matrix[0].length; i++) {
+            temporaryArray = new double[matrix.length - 1][matrix[0].length - 1];
+            for (int j = 1; j < matrix.length; j++) {
+                for (int k = 0; k < matrix[0].length; k++) {
+                    if (k < i) {
+                        temporaryArray[j - 1][k] = matrix[j][k];
+                    } else if (k > i) {
+                        temporaryArray[j - 1][k - 1] = matrix[j][k];
+                    }
+                }
+            }
+            result += matrix[0][i] * Math.pow(-1, i) * getMatrixDeterminant(temporaryArray);
+        }
+        return result;
+    }
+ @Override
+ public String toString() {
+        String result = new String("{");
+        for (int i=0; i<rows.length; i++){
+            result=result.concat("{");
+            for (int j=0; j<rows[i].getSize();j++){
+                result=result.concat(String.valueOf(rows[i].getComponent(j))+", ");
+            }
+            result=result.replaceAll(", $"," ").concat("},");
+        }
+        return result.concat("}");
+ }
+
 }
