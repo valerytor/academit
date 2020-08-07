@@ -138,22 +138,12 @@ public class Matrix {
     }
 
     public double getDeterminant() {
-        System.out.println("ROWS.LENGTH: " + rows.length);
-        if (rows.length == 1) {
-            return rows[0].getComponent(0);
-
-        }
-        if (rows.length == 2) {
-            return rows[0].getComponent(0) * rows[1].getComponent(1) -
-                    rows[0].getComponent(1) * rows[1].getComponent(0);
-
-        }
-
+        //System.out.println("ROWS.LENGTH: " + rows.length);
         return getMatrixDeterminant(getDoubleArray());
     }
 
     private double[][] getDoubleArray() {
-        System.out.println("rows.length: "+rows.length+" rows[0].getSize(): "+rows[0].getSize()+" rows[1].getSize(): "+rows[1].getSize());
+        //System.out.println("rows.length: " + rows.length + " rows[0].getSize(): " + rows[0].getSize() + " rows[1].getSize(): " + rows[1].getSize());
         double[][] temporaryArray = new double[rows.length][rows[0].getSize()];
         for (int i = 0; i < rows.length; i++) {
             for (int j = 0; j < rows[i].getSize(); j++) {
@@ -167,12 +157,12 @@ public class Matrix {
     private double getMatrixDeterminant(double[][] matrix) {
         double[][] temporaryArray;
         double result = 0;
-
         if (matrix.length == 1) {
+
             return matrix[0][0];
         }
-
         if (matrix.length == 2) {
+
             return ((matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]));
         }
         for (int i = 0; i < matrix[0].length; i++) {
@@ -188,19 +178,89 @@ public class Matrix {
             }
             result += matrix[0][i] * Math.pow(-1, i) * getMatrixDeterminant(temporaryArray);
         }
+
         return result;
     }
- @Override
- public String toString() {
-        String result = new String("{");
-        for (int i=0; i<rows.length; i++){
-            result=result.concat("{");
-            for (int j=0; j<rows[i].getSize();j++){
-                result=result.concat(String.valueOf(rows[i].getComponent(j))+", ");
-            }
-            result=result.replaceAll(", $"," ").concat("},");
-        }
-        return result.concat("}");
- }
 
+    @Override
+    public String toString() {
+        String result = new String("{");
+        for (int i = 0; i < rows.length; i++) {
+            result = result.concat("{");
+            for (int j = 0; j < rows[i].getSize(); j++) {
+                result = result.concat(String.valueOf(rows[i].getComponent(j)) + ",");
+            }
+            result = result.replaceAll(",$", "").concat("},");
+        }
+
+        return result.replaceAll(",$", "").concat("}");
+    }
+
+    public void multiplyOnVector(Vector vector) {
+        if (vector == null) {
+            throw new IllegalArgumentException("Incorrect value of argument!  vector = null");
+        }
+        if (rows[0].getSize() < vector.getSize()) {
+            throw new IllegalArgumentException("Size of vector is too big! Size: " + vector.getSize());
+        }
+
+        for (int i = 0; i < rows.length; i++) {
+            for (int j = 0; j < vector.getSize(); j++) {
+                rows[i].setComponent(j, rows[i].getComponent(j) * vector.getComponent(j));
+            }
+        }
+    }
+
+    public void additionMatrix(Matrix matrix) {
+        checkSizeMatrix(this, matrix);
+        addMatrix(this, matrix);
+    }
+
+    public static void additionMatrix(Matrix matrix1, Matrix matrix2) {
+        checkSizeMatrix(matrix1, matrix2);
+        addMatrix(matrix1, matrix2);
+    }
+
+    public void subtractionMatrix(Matrix matrix) {
+        checkSizeMatrix(this, matrix);
+        subtMatrix(this, matrix);
+    }
+
+    public static void subtractionMatrix(Matrix matrix1, Matrix matrix2) {
+        checkSizeMatrix(matrix1, matrix2);
+        subtMatrix(matrix1, matrix2);
+    }
+
+    private static void addMatrix(Matrix matrix1, Matrix matrix2) {
+        checkSizeMatrix(matrix1, matrix2);
+        for (int i = 0; i < matrix1.rows.length; i++) {
+            for (int j = 0; j < matrix1.rows[j].getSize(); j++) {
+                matrix1.rows[i].setComponent(j, matrix1.rows[i].getComponent(j) + matrix2.rows[i].getComponent(j));
+            }
+        }
+    }
+
+    private static void subtMatrix(Matrix matrix1, Matrix matrix2) {
+        checkSizeMatrix(matrix1, matrix2);
+        for (int i = 0; i < matrix1.rows.length; i++) {
+            for (int j = 0; j < matrix1.rows[j].getSize(); j++) {
+                matrix1.rows[i].setComponent(j, matrix1.rows[i].getComponent(j) - matrix2.rows[i].getComponent(j));
+            }
+        }
+    }
+
+    private static void checkSizeMatrix(Matrix matrix1, Matrix matrix2) {
+        if (matrix1 == null) {
+            throw new IllegalArgumentException("Incorrect value of argument!  matrix1 = null");
+        }
+        if (matrix2 == null) {
+            throw new IllegalArgumentException("Incorrect value of argument!  matrix2 = null");
+        }
+        if (matrix1.getColumnSize() != matrix2.getColumnSize()) {
+            throw new IllegalArgumentException("Size of column are not equals! Size of current matrix: " + matrix1.getColumnSize() + "Size of column entered matrix: " + matrix2.getColumnSize());
+        }
+        if (matrix1.getRowSize() != matrix2.getRowSize()) {
+            throw new IllegalArgumentException("Size of row are not equals! Size of row current matrix: " + matrix1.getRowSize() + "Size of row entered matrix: " + matrix2.getRowSize());
+        }
+    }
 }
