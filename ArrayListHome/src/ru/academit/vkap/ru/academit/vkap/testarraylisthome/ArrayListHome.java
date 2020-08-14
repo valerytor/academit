@@ -8,15 +8,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ArrayListHome<T> {
+    T objectVar;
+
+    ArrayListHome(T object) {
+        objectVar = object;
+    }
+
     public static void main(String[] args) {
-        ArrayListHome arrayListString = new ArrayListHome<String>();
+        ArrayListHome arrayListString = new ArrayListHome<String>(new String());
         ArrayList<String> stringArrayList = new ArrayList<String>();
         stringArrayList = arrayListString.fileRead("/home/valent/Java_project/Git_project/academit/ru.academit/ArrayListHome/src/ru/academit/vkap/ru/academit/vkap/testarraylisthome/textFile.txt");
         System.out.println("Array of string: " + stringArrayList);
-
-        ArrayListHome arrayListInt = new ArrayListHome<Integer>();
+        System.out.println(arrayListString.objectVar.getClass().getTypeName());
+        ArrayListHome arrayListInt = new ArrayListHome<Integer>(0);
         ArrayList<Integer> intArrayList = new ArrayList<Integer>();
         intArrayList = arrayListInt.fileRead("/home/valent/Java_project/Git_project/academit/ru.academit/ArrayListHome/src/ru/academit/vkap/ru/academit/vkap/testarraylisthome/integerFile.txt");
+        System.out.println(arrayListInt.objectVar.getClass().getTypeName());
+
         System.out.println("Array of int: " + intArrayList);
 
         System.out.println("Delete even numbers:");
@@ -33,7 +41,11 @@ public class ArrayListHome<T> {
             String dataLine;
             ArrayList<T> arrayList = new ArrayList<>();
             while ((dataLine = br.readLine()) != null) {
-                arrayList.add((T) dataLine);
+                if (objectVar.getClass().getTypeName().equals("java.lang.Integer")) {
+                    arrayList.add((T) Integer.valueOf(dataLine));
+                } else {
+                    arrayList.add((T) dataLine);
+                }
             }
             fis.close();
             isr.close();
@@ -49,8 +61,7 @@ public class ArrayListHome<T> {
     private void deleteEvenNumber(ArrayList<Integer> arrayList) {
         for (int i = 0; i < arrayList.size(); i++) {
             if (arrayList.get(i) % 2 == 0) {
-                //arrayList.remove(i);
-                String st="wds";
+                arrayList.remove(i);
             }
         }
         arrayList.trimToSize();
