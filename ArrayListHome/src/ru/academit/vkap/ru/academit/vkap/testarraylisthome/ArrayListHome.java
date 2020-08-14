@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ArrayListHome<T> {
     T objectVar;
@@ -19,16 +18,18 @@ public class ArrayListHome<T> {
         ArrayList<String> stringArrayList = new ArrayList<String>();
         stringArrayList = arrayListString.fileRead("/home/valent/Java_project/Git_project/academit/ru.academit/ArrayListHome/src/ru/academit/vkap/ru/academit/vkap/testarraylisthome/textFile.txt");
         System.out.println("Array of string: " + stringArrayList);
-        System.out.println(arrayListString.objectVar.getClass().getTypeName());
+
         ArrayListHome arrayListInt = new ArrayListHome<Integer>(0);
         ArrayList<Integer> intArrayList = new ArrayList<Integer>();
         intArrayList = arrayListInt.fileRead("/home/valent/Java_project/Git_project/academit/ru.academit/ArrayListHome/src/ru/academit/vkap/ru/academit/vkap/testarraylisthome/integerFile.txt");
-        System.out.println(arrayListInt.objectVar.getClass().getTypeName());
-
-        System.out.println("Array of int: " + intArrayList);
 
         System.out.println("Delete even numbers:");
         arrayListInt.deleteEvenNumber(intArrayList);
+        System.out.println(intArrayList);
+
+
+        System.out.printf("Remove repeat value");
+        arrayListInt.repeatDelete(intArrayList);
         System.out.println(intArrayList);
     }
 
@@ -65,5 +66,19 @@ public class ArrayListHome<T> {
             }
         }
         arrayList.trimToSize();
+    }
+
+    private void repeatDelete(ArrayList<Integer> arrayList) {
+        for (int i = 0; i < arrayList.size(); i++) {
+            int j = i + 1;
+            while (j < arrayList.size()) {
+                if (arrayList.get(i) == arrayList.get(j)) {
+                    arrayList.remove(j);
+
+                    continue;
+                }
+                j++;
+            }
+        }
     }
 }
