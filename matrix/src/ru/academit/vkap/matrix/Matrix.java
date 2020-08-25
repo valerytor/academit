@@ -7,17 +7,17 @@ import java.util.Arrays;
 public class Matrix {
     private Vector[] rows;
 
-    public Matrix(int rows, int columns) {
-        if (rows < 0) {
-            throw new IllegalArgumentException("Error: the row value can`t less than 0 Current value is: " + rows);
+    public Matrix(int countRows, int countColumns) {
+        if (countRows <= 0) {
+            throw new IllegalArgumentException("Error: the row value can`t less than 0 Current value is: " + countRows);
         }
-        if (columns < 0) {
-            throw new IllegalArgumentException("Error: the column value can`t less than 0 Current value is: " + columns);
+        if (countColumns <= 0) {
+            throw new IllegalArgumentException("Error: the column value can`t less than 0 Current value is: " + countColumns);
         }
 
-        this.rows = new Vector[rows];
-        for (int i = 0; i < rows; i++) {
-            this.rows[i] = new Vector(columns);
+        this.rows = new Vector[countRows];
+        for (int i = 0; i < countRows; i++) {
+            this.rows[i] = new Vector(countColumns);
         }
     }
 
@@ -26,7 +26,7 @@ public class Matrix {
             throw new IllegalArgumentException("Incorrect value of argument!  matrix = null");
         }
 
-        int maxLength = getMaxLength(matrix.rows);
+        int maxLength = getColumnSize();
         rows = new Vector[maxLength];
         for (int i = 0; i < maxLength; i++) {
             rows[i] = new Vector(matrix.rows[i]);
@@ -257,10 +257,10 @@ public class Matrix {
             throw new IllegalArgumentException("Incorrect value of argument!  matrix2 = null");
         }
         if (matrix1.getColumnSize() != matrix2.getColumnSize()) {
-            throw new IllegalArgumentException("Size of column are not equals! Size of current matrix: " + matrix1.getColumnSize() + "Size of column entered matrix: " + matrix2.getColumnSize());
+            throw new IllegalArgumentException("Size of column are not equals! Size of current matrix: " + matrix1.getColumnSize() + " Size of column entered matrix: " + matrix2.getColumnSize());
         }
         if (matrix1.getRowSize() != matrix2.getRowSize()) {
-            throw new IllegalArgumentException("Size of row are not equals! Size of row current matrix: " + matrix1.getRowSize() + "Size of row entered matrix: " + matrix2.getRowSize());
+            throw new IllegalArgumentException("Size of row are not equals! Size of row current matrix: " + matrix1.getRowSize() + " Size of row entered matrix: " + matrix2.getRowSize());
         }
     }
 }
