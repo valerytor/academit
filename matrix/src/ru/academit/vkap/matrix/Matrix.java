@@ -23,10 +23,10 @@ public class Matrix {
 
     public Matrix(Matrix matrix) {
         if (matrix == null) {
-            throw new IllegalArgumentException("Incorrect value of argument!  matrix = null");
+            throw new IllegalArgumentException("Incorrect value of argument! Variable matrix is null");
         }
 
-        int maxLength = getColumnSize();
+        int maxLength = matrix.getCountColumns();
         rows = new Vector[maxLength];
         for (int i = 0; i < maxLength; i++) {
             rows[i] = new Vector(matrix.rows[i]);
@@ -37,13 +37,8 @@ public class Matrix {
         if (doubleArray == null) {
             throw new IllegalArgumentException("Incorrect value of argument! Array mast have values double[][]");
         }
-
-        for (int i = 0; i < doubleArray.length; i++) {
-            for (int j = 0; j < doubleArray[i].length; j++) {
-                if (doubleArray[i][j] < 0) {
-                    throw new IllegalArgumentException("Incorrect value of array for [" + i + "][" + j + "] is " + doubleArray[i][j] + "Value must be more than 0");
-                }
-            }
+        if (doubleArray.length == 0) {
+            throw new IllegalArgumentException("Incorrect value of argument!  vectorArray is empty!");
         }
 
         int maxLength = getMaxLength(doubleArray);
@@ -55,7 +50,10 @@ public class Matrix {
 
     public Matrix(Vector[] vectorArray) {
         if (vectorArray == null) {
-            throw new IllegalArgumentException("Incorrect value of argument!  vectorArray = null");
+            throw new IllegalArgumentException("Incorrect value of argument! Variable vectorArray is null");
+        }
+        if (vectorArray.length == 0) {
+            throw new IllegalArgumentException("Incorrect value of argument! Variable vectorArray is empty!");
         }
 
         int maxLength = getMaxLength(vectorArray);
@@ -74,28 +72,25 @@ public class Matrix {
         return Arrays.stream(array).mapToInt(x -> x.length).max().orElse(-1);
     }
 
-    public void showMatrixSize() {
-        System.out.println("Size of matrix is:  column-" + getColumnSize() + " row-" + getRowSize());
-    }
-
-    private int getRowSize() {
+    public int getCountColumns() {
         return rows.length;
     }
 
-    private int getColumnSize() {
+    public int getCountRows() {
         return rows[0].getSize();
     }
 
-    private Vector getVectorString(int index) {
+    public Vector getRow(int index) {
         checkRange(index);
 
-        return rows[index];
+        return new Vector(rows[index]);
     }
 
-    private void setVectorString(int index, Vector vector) {
+    public void setRow(int index, Vector vector) {
         checkRange(index);
+vector.
+        //rows[index] = new Vector(vector);
 
-        rows[index] = new Vector(vector);
     }
 
     private Vector getVectorColumn(int index) {
@@ -109,16 +104,17 @@ public class Matrix {
     }
 
     public void makeTranspose() {
-        Vector[] temp = new Vector[getColumnSize()];
+        Vector[] temp = new Vector[getCountRows()];
 
-        for (int i = 0; i < getRowSize(); i++) {
-            for (int j = 0; j < getColumnSize(); j++) {
+        for (int i = 0; i < getCountColumns(); i++) {
+            for (int j = 0; j < getCountRows(); j++) {
                 if (temp[j] == null) {
-                    temp[j] = new Vector(getRowSize());
+                    temp[j] = new Vector(getCountColumns());
                 }
                 temp[j].setComponent(i, rows[i].getComponent(j));
             }
         }
+
         rows = temp;
     }
 
@@ -234,7 +230,7 @@ public class Matrix {
     private static void addMatrix(Matrix matrix1, Matrix matrix2) {
         checkSizeMatrix(matrix1, matrix2);
         for (int i = 0; i < matrix1.rows.length; i++) {
-            for (int j = 0; j < matrix1.rows[j].getSize(); j++) {
+            for (int j = 0; j < matrix1.rows[i].getSize(); j++) {
                 matrix1.rows[i].setComponent(j, matrix1.rows[i].getComponent(j) + matrix2.rows[i].getComponent(j));
             }
         }
@@ -243,7 +239,7 @@ public class Matrix {
     private static void subtMatrix(Matrix matrix1, Matrix matrix2) {
         checkSizeMatrix(matrix1, matrix2);
         for (int i = 0; i < matrix1.rows.length; i++) {
-            for (int j = 0; j < matrix1.rows[j].getSize(); j++) {
+            for (int j = 0; j < matrix1.rows[i].getSize(); j++) {
                 matrix1.rows[i].setComponent(j, matrix1.rows[i].getComponent(j) - matrix2.rows[i].getComponent(j));
             }
         }
@@ -256,11 +252,11 @@ public class Matrix {
         if (matrix2 == null) {
             throw new IllegalArgumentException("Incorrect value of argument!  matrix2 = null");
         }
-        if (matrix1.getColumnSize() != matrix2.getColumnSize()) {
-            throw new IllegalArgumentException("Size of column are not equals! Size of current matrix: " + matrix1.getColumnSize() + " Size of column entered matrix: " + matrix2.getColumnSize());
+        if (matrix1.getCountRows() != matrix2.getCountRows()) {
+            throw new IllegalArgumentException("Size of column are not equals! Size of current matrix: " + matrix1.getCountRows() + " Size of column entered matrix: " + matrix2.getCountRows());
         }
-        if (matrix1.getRowSize() != matrix2.getRowSize()) {
-            throw new IllegalArgumentException("Size of row are not equals! Size of row current matrix: " + matrix1.getRowSize() + " Size of row entered matrix: " + matrix2.getRowSize());
+        if (matrix1.getCountColumns() != matrix2.getCountColumns()) {
+            throw new IllegalArgumentException("Size of row are not equals! Size of row current matrix: " + matrix1.getCountColumns() + " Size of row entered matrix: " + matrix2.getCountColumns());
         }
     }
 }
