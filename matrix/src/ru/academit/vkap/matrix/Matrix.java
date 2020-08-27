@@ -26,7 +26,7 @@ public class Matrix {
             throw new IllegalArgumentException("Incorrect value of argument! Variable matrix is null");
         }
 
-        int maxLength = matrix.getCountColumns();
+        int maxLength = matrix.getRowsCount();
         rows = new Vector[maxLength];
         for (int i = 0; i < maxLength; i++) {
             rows[i] = new Vector(matrix.rows[i]);
@@ -72,11 +72,11 @@ public class Matrix {
         return Arrays.stream(array).mapToInt(x -> x.length).max().orElse(-1);
     }
 
-    public int getCountColumns() {
+    public int getRowsCount() {
         return rows.length;
     }
 
-    public int getCountRows() {
+    public int getColumnsCount() {
         return rows[0].getSize();
     }
 
@@ -86,10 +86,16 @@ public class Matrix {
         return new Vector(rows[index]);
     }
 
-    public void setRow(int index, Vector vector) {
+    public Vector setRow(int index, Vector vector) {
         checkRange(index);
-vector.
+        int rowLength = vector.getSize();
+        double[] tempArray = new double[rowLength];
+        for(int i=0; i<rowLength; i++){
+            tempArray[i]=vector.getComponent(i);
+        }
+        return new Vector(tempArray);
         //rows[index] = new Vector(vector);
+        //https://github.com/AnnaAlexandrova/CourseJava/blob/3fbab5fb26ac424fdafe7d8313180c0b069597b4/Matrix/src/fytyr/idea_projects/course_java/matrix/Matrix.java#L139
 
     }
 
@@ -104,12 +110,12 @@ vector.
     }
 
     public void makeTranspose() {
-        Vector[] temp = new Vector[getCountRows()];
+        Vector[] temp = new Vector[getColumnsCount()];
 
-        for (int i = 0; i < getCountColumns(); i++) {
-            for (int j = 0; j < getCountRows(); j++) {
+        for (int i = 0; i < getRowsCount(); i++) {
+            for (int j = 0; j < getColumnsCount(); j++) {
                 if (temp[j] == null) {
-                    temp[j] = new Vector(getCountColumns());
+                    temp[j] = new Vector(getRowsCount());
                 }
                 temp[j].setComponent(i, rows[i].getComponent(j));
             }
@@ -252,11 +258,11 @@ vector.
         if (matrix2 == null) {
             throw new IllegalArgumentException("Incorrect value of argument!  matrix2 = null");
         }
-        if (matrix1.getCountRows() != matrix2.getCountRows()) {
-            throw new IllegalArgumentException("Size of column are not equals! Size of current matrix: " + matrix1.getCountRows() + " Size of column entered matrix: " + matrix2.getCountRows());
+        if (matrix1.getColumnsCount() != matrix2.getColumnsCount()) {
+            throw new IllegalArgumentException("Size of column are not equals! Size of current matrix: " + matrix1.getColumnsCount() + " Size of column entered matrix: " + matrix2.getColumnsCount());
         }
-        if (matrix1.getCountColumns() != matrix2.getCountColumns()) {
-            throw new IllegalArgumentException("Size of row are not equals! Size of row current matrix: " + matrix1.getCountColumns() + " Size of row entered matrix: " + matrix2.getCountColumns());
+        if (matrix1.getRowsCount() != matrix2.getRowsCount()) {
+            throw new IllegalArgumentException("Size of row are not equals! Size of row current matrix: " + matrix1.getRowsCount() + " Size of row entered matrix: " + matrix2.getRowsCount());
         }
     }
 }
