@@ -10,10 +10,10 @@ public class MatrixTest {
     public static void main(String[] args) {
         Vector vector1 = new Vector(new double[]{1, -2, 4});
         Vector vector2 = new Vector(new double[]{44, 5});
-        Vector vector3 = new Vector(new double[]{4, 5, 8});
+        Vector vector3 = new Vector(new double[]{4, 7, 8});
         Vector[] vectors = new Vector[]{vector1, vector2};
         Matrix matrix = new Matrix(vectors);
-        matrix.makeTranspose();
+        matrix.transpose();
         matrix.multiplyOnScalar(2.2);
 
         Vector[] vectors2 = new Vector[]{vector2, vector3};
@@ -23,8 +23,8 @@ public class MatrixTest {
         Matrix thridMatrix = new Matrix(vectors3);
 
         System.out.println("Calculate of determinant: " + secondMatrix.getDeterminant());
-        secondMatrix.multiplyOnVector(vector2);
-        System.out.println("Multiple on vector: " + secondMatrix);
+        Vector multiplyVectors= secondMatrix.multiplyOnVector(vector2);
+        System.out.println("Multiple on vector: " + multiplyVectors);
 
         thridMatrix.additionMatrix(secondMatrix);
         System.out.println("Addition of Matrix: " + thridMatrix);
