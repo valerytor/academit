@@ -99,6 +99,7 @@ public class Matrix {
 
     private Vector getColumn(int index) {
         checkRange(index, rows[0].getSize());
+
         Vector vector = new Vector(rows.length);
         for (int i = 0; i < rows.length; i++) {
             vector.setComponent(i, rows[i].getComponent(index));
@@ -232,7 +233,7 @@ public class Matrix {
         return matrix;
     }
 
-    public static Matrix multiplicationMatrix(Matrix matrix1, Matrix matrix2) {
+    public static void multiplicationMatrix(Matrix matrix1, Matrix matrix2) {
         if (matrix1 == null) {
             throw new IllegalArgumentException("Incorrect value of argument!  matrix1 = null");
         }
@@ -243,17 +244,27 @@ public class Matrix {
         int valueColumn = matrix2.getColumnsCount();
         Matrix tempoMatrix = new Matrix(valueRows, valueColumn);
         Matrix multiplyingMatrix = new Matrix(matrix2);
-        multiplyingMatrix.transpose();
+        System.out.println("m2 after"+multiplyingMatrix);
 
-        for (int i = 0; i < valueRows; i++) {
-            Vector vector1 = matrix1.rows[i];
-            Vector vector2 = new Vector(valueRows);
-            for (int j = 0; j < multiplyingMatrix.getRowsCount(); j++) {
-                //Vector vector2 =matrix2.transpose();  rows[j];   vector2.turn();
-                vector2.setComponent();
-            }
-            tempoMatrix.setRow(i)
+        multiplyingMatrix.transpose();
+        System.out.println("m1: "+matrix1);
+        System.out.println("m2 "+multiplyingMatrix);
+
+        for (int j = 0; j < multiplyingMatrix.getRowsCount(); j++) {
+            Vector vector = matrix1.multiplyOnVector(multiplyingMatrix.rows[j]);
+            System.out.println("VECTOR: "+vector);
         }
+
+
+//        for (int i = 0; i < valueRows; i++) {
+//            Vector vector1 = matrix1.rows[i];
+//            Vector vector2 = new Vector(valueRows);
+//            for (int j = 0; j < multiplyingMatrix.getRowsCount(); j++) {
+//                //Vector vector2 =matrix2.transpose();  rows[j];   vector2.turn();
+//                vector2.setComponent();
+//            }
+//            tempoMatrix.setRow(i)
+//        }
 
     }
 

@@ -3,8 +3,7 @@ package ru.academit.vkap.test_matrix;
 import ru.academit.vkap.matrix.Matrix;
 import ru.academit.vkap.vector.Vector;
 
-import static ru.academit.vkap.matrix.Matrix.additionMatrix;
-import static ru.academit.vkap.matrix.Matrix.subtractionMatrix;
+import static ru.academit.vkap.matrix.Matrix.*;
 
 public class MatrixTest {
     public static void main(String[] args) {
@@ -21,6 +20,9 @@ public class MatrixTest {
 
         Vector[] vectors3 = new Vector[]{vector1, vector2};
         Matrix thridMatrix = new Matrix(vectors3);
+
+        multiplicationMatrix(secondMatrix, thridMatrix);
+        System.exit(1);
 
         System.out.println("Calculate of determinant: " + secondMatrix.getDeterminant());
         Vector multiplyVectors= secondMatrix.multiplyOnVector(vector2);
