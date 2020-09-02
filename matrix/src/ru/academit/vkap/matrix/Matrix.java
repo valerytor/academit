@@ -147,8 +147,6 @@ public class Matrix {
     }
 
     private static double getMatrixDeterminant(double[][] matrix) {
-        //double[][] temporaryArray;
-
         if (matrix.length == 1) {
             return matrix[0][0];
         }
@@ -234,7 +232,30 @@ public class Matrix {
         return matrix;
     }
 
+    public static Matrix multiplicationMatrix(Matrix matrix1, Matrix matrix2) {
+        if (matrix1 == null) {
+            throw new IllegalArgumentException("Incorrect value of argument!  matrix1 = null");
+        }
+        if (matrix2 == null) {
+            throw new IllegalArgumentException("Incorrect value of argument!  matrix2 = null");
+        }
+        int valueRows = matrix1.getRowsCount();
+        int valueColumn = matrix2.getColumnsCount();
+        Matrix tempoMatrix = new Matrix(valueRows, valueColumn);
+        Matrix multiplyingMatrix = new Matrix(matrix2);
+        multiplyingMatrix.transpose();
 
+        for (int i = 0; i < valueRows; i++) {
+            Vector vector1 = matrix1.rows[i];
+            Vector vector2 = new Vector(valueRows);
+            for (int j = 0; j < multiplyingMatrix.getRowsCount(); j++) {
+                //Vector vector2 =matrix2.transpose();  rows[j];   vector2.turn();
+                vector2.setComponent();
+            }
+            tempoMatrix.setRow(i)
+        }
+
+    }
 
     private static void checkSizeMatrix(Matrix matrix1, Matrix matrix2) {
         if (matrix1 == null) {
