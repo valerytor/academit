@@ -233,39 +233,28 @@ public class Matrix {
         return matrix;
     }
 
-    public static void multiplicationMatrix(Matrix matrix1, Matrix matrix2) {
+    public static Matrix multiplicationMatrix(Matrix matrix1, Matrix matrix2) {
         if (matrix1 == null) {
             throw new IllegalArgumentException("Incorrect value of argument!  matrix1 = null");
         }
         if (matrix2 == null) {
             throw new IllegalArgumentException("Incorrect value of argument!  matrix2 = null");
         }
-        int valueRows = matrix1.getRowsCount();
-        int valueColumn = matrix2.getColumnsCount();
-        Matrix tempoMatrix = new Matrix(valueRows, valueColumn);
-        Matrix multiplyingMatrix = new Matrix(matrix2);
-        System.out.println("m2 after"+multiplyingMatrix);
-
-        multiplyingMatrix.transpose();
-        System.out.println("m1: "+matrix1);
-        System.out.println("m2 "+multiplyingMatrix);
-
-        for (int j = 0; j < multiplyingMatrix.getRowsCount(); j++) {
-            Vector vector = matrix1.multiplyOnVector(multiplyingMatrix.rows[j]);
-            System.out.println("VECTOR: "+vector);
+        if (matrix1.getColumnsCount() != matrix2.getRowsCount()) {
+            throw new IllegalArgumentException("Count of rows in one matrix must be equal to the number of columns in another");
         }
+        int valueRows = matrix2.getRowsCount();
+        int valueColumn = matrix1.getRowsCount();
 
+        Matrix multiplyingMatrix = new Matrix(matrix2);
+        multiplyingMatrix.transpose();
+        Matrix tempoMatrix = new Matrix(valueRows, valueColumn);
+        for (int j = 0; j < valueRows; j++) {
+            tempoMatrix.rows[j].add(matrix1.multiplyOnVector(multiplyingMatrix.rows[j]));
+        }
+        tempoMatrix.transpose();
 
-//        for (int i = 0; i < valueRows; i++) {
-//            Vector vector1 = matrix1.rows[i];
-//            Vector vector2 = new Vector(valueRows);
-//            for (int j = 0; j < multiplyingMatrix.getRowsCount(); j++) {
-//                //Vector vector2 =matrix2.transpose();  rows[j];   vector2.turn();
-//                vector2.setComponent();
-//            }
-//            tempoMatrix.setRow(i)
-//        }
-
+        return tempoMatrix;
     }
 
     private static void checkSizeMatrix(Matrix matrix1, Matrix matrix2) {

@@ -21,9 +21,6 @@ public class MatrixTest {
         Vector[] vectors3 = new Vector[]{vector1, vector2};
         Matrix thridMatrix = new Matrix(vectors3);
 
-        multiplicationMatrix(secondMatrix, thridMatrix);
-        System.exit(1);
-
         System.out.println("Calculate of determinant: " + secondMatrix.getDeterminant());
         Vector multiplyVectors= secondMatrix.multiplyOnVector(vector2);
         System.out.println("Multiple on vector: " + multiplyVectors);
@@ -36,5 +33,12 @@ public class MatrixTest {
 
         additionMatrix(thridMatrix, secondMatrix);
         subtractionMatrix(thridMatrix, secondMatrix);
+
+         vectors3 = new Vector[]{vector1, vector2,vector3};
+         thridMatrix = new Matrix(vectors3);
+
+        Matrix multipMatrix = multiplicationMatrix(secondMatrix, thridMatrix);
+        System.out.println("Multiplication matrix: "+multipMatrix);
+
     }
 }
