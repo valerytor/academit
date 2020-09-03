@@ -64,11 +64,11 @@ public class Matrix {
         }
     }
 
-    private int getMaxLength(Vector[] vectors) {
-        return Arrays.stream(vectors).map(Vector::getSize).max(Integer::compare).orElse(-1);
+    static int getMaxLength(Vector[] vectors) {
+        return Arrays.stream(vectors).mapToInt(Vector::getSize).max().orElse(-1);
     }
 
-    private int getMaxLength(double[][] array) {
+    static int getMaxLength(double[][] array) {
         return Arrays.stream(array).mapToInt(x -> x.length).max().orElse(-1);
     }
 
@@ -98,7 +98,7 @@ public class Matrix {
     }
 
     private Vector getColumn(int index) {
-        checkRange(index, rows[0].getSize());
+        checkRange(index, getColumnsCount());
 
         Vector vector = new Vector(rows.length);
         for (int i = 0; i < rows.length; i++) {
@@ -137,7 +137,8 @@ public class Matrix {
     }
 
     private double[][] getDoubleArray() {
-        double[][] temporaryArray = new double[rows.length][rows[0].getSize()];
+        double[][] temporaryArray = new double[rows.length][getColumnsCount()];
+
         for (int i = 0; i < rows.length; i++) {
             for (int j = 0; j < rows[i].getSize(); j++) {
                 temporaryArray[i][j] = rows[i].getComponent(j);
@@ -191,7 +192,7 @@ public class Matrix {
         if (vector == null) {
             throw new IllegalArgumentException("Incorrect value of argument!  vector = null");
         }
-        if (rows[0].getSize() < vector.getSize()) {
+        if (getColumnsCount() < vector.getSize()) {
             throw new IllegalArgumentException("Size of vector is too big! Size: " + vector.getSize());
         }
 
