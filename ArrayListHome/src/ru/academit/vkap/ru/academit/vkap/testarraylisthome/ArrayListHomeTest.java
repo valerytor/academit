@@ -1,54 +1,65 @@
 package ru.academit.vkap.ru.academit.vkap.testarraylisthome;
 
+import java.io.IOException;
+import java.lang.reflect.GenericSignatureFormatError;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ArrayListHomeTest {
     public static void main(String[] args) {
-        ArrayListHomeTest arrayListHomeTest = new ArrayListHomeTest();
+        try {
+            ArrayListHome arrayListString = new ArrayListHome<>("");
+            ArrayList<String> stringArrayList = new ArrayList<String>();
+            stringArrayList = arrayListString.readFile("/home/valent/Java_project/Git_project/academit/ru.academit/ArrayListHome/src/ru/academit/vkap/ru/academit/vkap/testarraylisthome/textFile.txt");
+            System.out.println("Array of string: " + stringArrayList);
 
-        ArrayListHome arrayListString = new ArrayListHome<String>(new String());
-        ArrayList<String> stringArrayList = new ArrayList<String>();
-        stringArrayList = arrayListString.fileRead("/home/valent/Java_project/Git_project/academit/ru.academit/ArrayListHome/src/ru/academit/vkap/ru/academit/vkap/testarraylisthome/textFile.txt");
-        System.out.println("Array of string: " + stringArrayList);
+            ArrayListHome arrayListInt = new ArrayListHome<>(0);
+            ArrayList<Integer> intArrayList = new ArrayList<Integer>(arrayListInt.readFile("/home/valent/Java_project/Git_project/academit/ru.academit/ArrayListHome/src/ru/academit/vkap/ru/academit/vkap/testarraylisthome/integerFile.txt"));
+            System.out.println("Array of integer: " + intArrayList);
 
-        ArrayListHome arrayListInt = new ArrayListHome<Integer>(0);
-        ArrayList<Integer> intArrayList = new ArrayList<Integer>();
-        intArrayList = arrayListInt.fileRead("/home/valent/Java_project/Git_project/academit/ru.academit/ArrayListHome/src/ru/academit/vkap/ru/academit/vkap/testarraylisthome/integerFile.txt");
+            System.out.println("Delete even numbers:");
+            intArrayList = deleteEvenNumbers(intArrayList);
+            System.out.println(intArrayList);
 
-        System.out.println("Delete even numbers:");
-        deleteEvenNumber(intArrayList);
-        System.out.println(intArrayList);
-
-
-        System.out.printf("Remove repeat value");
-        arrayListInt.repeatDelete(intArrayList);
-        System.out.println(intArrayList);
+            System.out.println("Remove repeat value");
+            intArrayList = getWithoutRepeatList(intArrayList);
+            System.out.println(intArrayList);
+        } catch (IOException ioe) {
+            System.out.println("File read error: " + ioe.getMessage());
+        } catch (GenericSignatureFormatError fe) {
+            System.out.println("Error of using generic format: " + fe.getMessage());
+        }
     }
 
-    private ArrayList<Integer> deleteEvenNumber(ArrayList<Integer> arrayList) {
-        ArrayList<Integer> tempArrayList = new ArrayList<>();
-        tempArrayList = Arrays.copyOf(arrayList, arrayList.size());
-        for (int i = 0; i < arrayList.size(); i++) {
-            if (arrayList.get(i) % 2 == 0) {
-                arrayList.remove(i);
+    private static ArrayList<Integer> deleteEvenNumbers(ArrayList<Integer> arrayList) {
+        ArrayList<Integer> tempArrayList = new ArrayList<>(arrayList);
+        //tempArrayList.addAll(arrayList);
+        for (int i = 0; i < tempArrayList.size(); i++) {
+            if (tempArrayList.get(i) % 2 == 0) {
+                tempArrayList.remove(i);
             }
         }
-        arrayList.trimToSize();
+
+        tempArrayList.trimToSize();
+
+        return tempArrayList;
     }
 
-    public ArrayList<Integer> repeatDelete(ArrayList<Integer> arrayList) {
-        for (int i = 0; i < arrayList.size(); i++) {
+    private static ArrayList<Integer> getWithoutRepeatList(ArrayList<Integer> arrayList) {
+        ArrayList<Integer> tempArrayList = new ArrayList<>(arrayList);
+        for (int i = 0; i < tempArrayList.size(); i++) {
             int j = i + 1;
-            while (j < arrayList.size()) {
-                if (arrayList.get(i) == arrayList.get(j)) {
-                    arrayList.remove(j);
+
+            while (j < tempArrayList.size()) {
+                if (tempArrayList.get(i).equals(tempArrayList.get(j))) {
+                    tempArrayList.remove(j);
 
                     continue;
                 }
+
                 j++;
             }
         }
-    }
 
+        return tempArrayList;
+    }
 }
